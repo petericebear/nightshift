@@ -21,6 +21,14 @@ mostly unattended, only surfacing when work is done or a real decision is needed
 
 Or run **`/nightshift`** to do all phases, resuming from wherever the project is.
 
+## Daily issue triage (`/nightshift-triage`)
+For an existing repo with a backlog: label an issue **`ai-ready`** and Nightshift will
+build it on its own branch (`nightshift/issue-<n>`) and open a ready-for-review PR that
+closes the issue. It only touches `ai-ready` issues and claims each by relabelling
+(`ai-ready` → `ai-building` → `ai-review`), so it's safe to run every day without
+rebuilding the same work. Cap per run with `NIGHTSHIFT_TRIAGE_MAX` (default 3). See
+`SCHEDULING.md` to run it automatically each morning.
+
 ## How the orchestrator works
 - **Delegates coding**: Cursor/Composer (`scripts/cursor.sh`) for features/refactors,
   Codex (`scripts/codex.sh`) for debugging, review, and computer-use.

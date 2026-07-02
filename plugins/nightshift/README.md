@@ -20,6 +20,7 @@ idea → interview.md → SPEC.md → PRD.md → GitHub issues → autonomous bu
 | `/nightshift-issues` | PRD → GitHub issues via `gh` |
 | `/nightshift-build [item]` | Autonomous, self-verifying build (agent: `nightshift-orchestrator`) |
 | `/nightshift [idea\|build]` | Run the whole pipeline, resuming from current state |
+| `/nightshift-triage [issue#]` | Build open `ai-ready` GitHub issues on their own branch and open reviewed PRs |
 | `/nightshift-status` | Morning briefing: report + loop state + open issues |
 
 Saying **"nightshift"** in chat also triggers the skill.
@@ -40,6 +41,17 @@ Saying **"nightshift"** in chat also triggers the skill.
   irreversible/data-loss commands even in full-auto (`rm -rf`, force-push,
   `DROP`/`TRUNCATE`/`FLUSH`, `terraform destroy`, disk formats, etc.).
 - **Reporting** — `.context/NIGHTSHIFT_REPORT.md` is kept current for the morning read.
+
+## Daily issue triage
+
+Point Nightshift at an existing GitHub repo, label issues **`ai-ready`**, and run
+`/nightshift-triage` (manually or on a schedule). For each ready issue it claims the
+issue (`ai-ready` → `ai-building`), branches `nightshift/issue-<n>`, builds it to the
+usual definition of done (tests pass + review clean), pushes, opens a **ready-for-review
+PR** that closes the issue, and moves it to `ai-review`. It only ever processes
+`ai-ready` issues, so scheduled re-runs never rebuild the same work. Blocked issues get a
+comment explaining what's needed and are left in `ai-building` for a human. See
+[SCHEDULING.md](./SCHEDULING.md) for the ~6am daily setup.
 
 ## Autonomy posture
 

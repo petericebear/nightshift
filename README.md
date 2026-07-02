@@ -33,9 +33,18 @@ Full setup (permissions posture, executor CLIs, unattended runs): see
 | `/nightshift-issues` | PRD → GitHub issues via `gh` |
 | `/nightshift-build [item]` | Autonomous, self-verifying build |
 | `/nightshift [idea\|build]` | Whole pipeline, resuming from current state |
+| `/nightshift-triage [issue#]` | Build open `ai-ready` GitHub issues on their own branch and open reviewed PRs |
 | `/nightshift-status` | Morning briefing: report + loop state + open issues |
 
 Saying **"nightshift"** in chat also triggers the skill.
+
+## Daily issue triage
+
+Label a GitHub issue **`ai-ready`** and `/nightshift-triage` will build it on a
+`nightshift/issue-<n>` branch, verify (tests + review), and open a ready-for-review PR
+that closes the issue — moving it `ai-ready` → `ai-building` → `ai-review`. It only
+processes `ai-ready` issues and claims each by relabelling, so it's safe to run every
+morning. See [plugins/nightshift/SCHEDULING.md](./plugins/nightshift/SCHEDULING.md).
 
 ## How it works
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "nightshift-marketplace",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Local marketplace hosting the Nightshift autonomous build orchestrator.",
   "owner": {
     "name": "Peter Steenbergen",
@@ -14,8 +14,8 @@
     {
       "name": "nightshift",
       "source": "./plugins/nightshift",
-      "description": "Interview -> SPEC -> PRD -> GitHub issues -> autonomous multi-day build with Fable-5 orchestration, Cursor + Codex executors, self-verification, loop guards and destructive-op protection.",
-      "version": "1.0.0",
+      "description": "Interview -> SPEC -> PRD -> GitHub issues -> autonomous multi-day build with Fable-5 orchestration, Cursor + Codex executors, self-verification, loop guards and destructive-op protection. Includes daily issue triage: builds 'ai-ready' issues on their own branch and opens reviewed PRs.",
+      "version": "1.1.0",
       "author": {
         "name": "Peter Steenbergen",
         "email": "peter.steenbergen@elastic.co"
