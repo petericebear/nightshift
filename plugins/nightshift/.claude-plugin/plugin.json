@@ -1,0 +1,11 @@
+{
+  "name": "nightshift",
+  "version": "1.0.0",
+  "description": "Autonomous build pipeline: interview -> SPEC -> PRD -> GitHub issues -> multi-day self-verifying build. Fable-5 orchestrator delegates coding to Cursor (composer) and Codex, seeks consensus when stuck, guards against loops and destructive operations.",
+  "author": {
+    "name": "Peter Steenbergen",
+    "email": "peter.steenbergen@elastic.co"
+  },
+  "keywords": ["nightshift", "orchestration", "autonomous", "spec", "prd", "codex", "cursor", "self-verification"],
+  "hooks": "./hooks/hooks.json"
+}
