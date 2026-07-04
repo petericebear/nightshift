@@ -55,7 +55,23 @@ compositor overlays crisp logo + headline + subhead + CTA using
 `.context/brand-assets/DESIGN.md`. Sizes (in `plugins/nightshift/assets/ad_specs.json`):
 Google Ads 1200×628 / 1200×1200 / 900×1200, LinkedIn single 1200×628 / 1200×1200,
 LinkedIn carousel 1080×1080 × N, Meta/IG 1080×1080 / 1080×1920. Output lands in
-`.context/ad-creatives/<slug>/` with a manifest.
+`.context/ad-creatives/<slug>/` with a manifest. Image generation is **Codex-only**
+(gpt-image-2); no external-API path.
+
+## Everything lives in `.context/`
+
+All Nightshift inputs, state, and outputs stay in one folder per project:
+
+```
+.context/
+├── SPEC.md · PRD.md · NIGHTSHIFT_REPORT.md
+├── brand-assets/        DESIGN.md · design.json · logo/
+├── ad-creatives/<slug>/ base/ · <format>.png · index.md
+└── .nightshift/         state.json · consensus/
+```
+
+(The only exception is the optional macOS LaunchAgent plist, which the OS requires in
+`~/Library/LaunchAgents`.)
 
 ## How it works
 

@@ -68,9 +68,35 @@ headline + subhead + CTA at exact ad sizes, driven by `.context/brand-assets/DES
 - **Meta / Instagram**: 1080×1080, 1080×1920
 
 Set up `.context/brand-assets/` (scaffolded by `/nightshift-init`) with your logo and
-colors first. Needs `pillow` (`pip install pillow`); image generation defaults to Codex
-(`NIGHTSHIFT_IMAGE_BACKEND=api` + `OPENAI_API_KEY` for a direct-API fallback). Without an
-image backend it still renders usable drafts on a brand gradient.
+colors first. Needs `pillow` (`pip install pillow`). Image generation uses **Codex only**
+(gpt-image-2) — no external-API path. Without Codex it still renders usable drafts on a
+brand gradient.
+
+## Everything lives in `.context/`
+
+All of Nightshift's inputs, state, and outputs stay inside one folder per project, so
+it's easy to see and maintain (and easy to `.gitignore` or commit as you choose):
+
+```
+.context/
+├── SPEC.md                     # from the interview
+├── PRD.md                      # work breakdown
+├── NIGHTSHIFT_REPORT.md        # the morning read
+├── brand-assets/               # your brand inputs for ads
+│   ├── DESIGN.md               # colors, fonts, tone, guardrails
+│   ├── design.json             # machine-readable tokens
+│   └── logo/                   # your logo files (logo.png, logo-white.png)
+├── ad-creatives/<slug>/        # generated ads
+│   ├── base/                   # AI background visuals (Codex/gpt-image-2)
+│   ├── <format>.png            # final platform-exact creatives
+│   └── index.md                # manifest: platform, size, copy used
+└── .nightshift/                # runtime state
+    ├── state.json              # loop-guard counters
+    └── consensus/              # second-opinion proposals when stuck
+```
+
+The only file Nightshift places outside `.context/` is the optional macOS LaunchAgent
+plist for scheduling (the OS requires it in `~/Library/LaunchAgents`).
 
 ## Autonomy posture
 

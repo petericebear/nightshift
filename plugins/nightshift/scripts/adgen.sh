@@ -6,19 +6,15 @@
 #   adgen.sh <aspect> "<image prompt>" <out.png>
 #     aspect: square | landscape | portrait | story
 #
-# Backend (env NIGHTSHIFT_IMAGE_BACKEND):
-#   codex  (default) -> drive the Codex CLI's image-generation skill (uses your
-#                       OpenAI/ChatGPT auth). Model via NIGHTSHIFT_IMAGE_MODEL
-#                       (default gpt-image-2).
-#   api             -> call the OpenAI Images API directly with curl (needs
-#                       OPENAI_API_KEY). Deterministic fallback for CI/unattended.
+# Backend: Codex CLI only. Codex drives its image-generation skill using your
+# OpenAI/ChatGPT auth. Model via NIGHTSHIFT_IMAGE_MODEL (default gpt-image-2).
+# If Codex is unavailable, the ad-designer falls back to the compositor's on-brand
+# gradient (no base image) — there is no external API path.
 set -euo pipefail
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ASPECT="${1:?aspect required: square|landscape|portrait|story}"
 PROMPT="${2:?image prompt required}"
 OUT="${3:?output path required}"
-BACKEND="${NIGHTSHIFT_IMAGE_BACKEND:-codex}"
 MODEL="${NIGHTSHIFT_IMAGE_MODEL:-gpt-image-2}"
 
 case "$ASPECT" in
@@ -39,31 +35,8 @@ words, letters, headlines, captions, watermarks, UI, or logos — leave clean ne
 space (roughly one third of the frame) for text to be added later. Professional,
 on-brand, uncluttered composition."
 
-if [ "$BACKEND" = "api" ]; then
-  : "${OPENAI_API_KEY:?OPENAI_API_KEY required for api backend}"
-  command -v curl >/dev/null || { echo "adgen.sh: curl required" >&2; exit 127; }
-  command -v python3 >/dev/null || { echo "adgen.sh: python3 required to decode" >&2; exit 127; }
-  resp="$(curl -sS https://api.openai.com/v1/images/generations \
-      -H "Authorization: Bearer $OPENAI_API_KEY" \
-      -H "Content-Type: application/json" \
-      -d "$(python3 -c 'import json,sys,os; print(json.dumps({"model":os.environ["M"],"prompt":sys.argv[1],"size":os.environ["S"],"n":1}))' "$FULL_PROMPT" M="$MODEL" S="$SIZE")")"
-  M="$MODEL" S="$SIZE" python3 - "$OUT" <<'PY'
-import json,sys,base64
-out=sys.argv[1]
-data=json.load(sys.stdin)
-try:
-    b64=data["data"][0]["b64_json"]
-except Exception:
-    sys.stderr.write("adgen.sh: unexpected API response: %s\n"%str(data)[:400]); sys.exit(1)
-open(out,"wb").write(base64.b64decode(b64))
-print(out)
-PY
-  exit 0
-fi
-
-# Default: Codex backend.
 if ! command -v codex >/dev/null 2>&1; then
-  echo "NIGHTSHIFT: codex not found. Install the Codex CLI, or set NIGHTSHIFT_IMAGE_BACKEND=api with OPENAI_API_KEY." >&2
+  echo "NIGHTSHIFT: codex not found on PATH. Install the Codex CLI (the ad-designer will otherwise fall back to a brand gradient)." >&2
   exit 127
 fi
 
@@ -78,6 +51,6 @@ codex exec --sandbox workspace-write --ask-for-approval never "$CODEX_TASK" >&2 
 if [ -f "$OUT" ]; then
   echo "$OUT"
 else
-  echo "NIGHTSHIFT: Codex did not produce $OUT. Check Codex auth/image skill, or use the api backend." >&2
+  echo "NIGHTSHIFT: Codex did not produce $OUT. Check Codex auth / image skill." >&2
   exit 1
 fi

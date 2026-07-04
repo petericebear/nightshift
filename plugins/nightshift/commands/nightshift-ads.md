@@ -25,11 +25,14 @@ Steps:
 3. Output goes to `.context/ad-creatives/<slug>/` with an `index.md` listing each asset
    (platform, size, and the exact headline/subhead/CTA used).
 
+Everything lives under `.context/`: brand inputs in `.context/brand-assets/` (logo,
+DESIGN.md), generated bases in `.context/ad-creatives/<slug>/base/`, final creatives and
+the manifest in `.context/ad-creatives/<slug>/`.
+
 Formats & sizes come from `${CLAUDE_PLUGIN_ROOT}/assets/ad_specs.json`
 (Google 1200×628 / 1200×1200 / 900×1200; LinkedIn 1200×628 / 1200×1200; LinkedIn
 carousel 1080×1080 ×N; Meta 1080×1080 / 1080×1920).
 
-Backends: image generation defaults to Codex (`NIGHTSHIFT_IMAGE_BACKEND=api` +
-`OPENAI_API_KEY` for a direct-API fallback). Requires `pillow` for compositing
-(`pip install pillow`). If the image backend is unavailable, still produce drafts using
-the brand-gradient fallback and say so.
+Image generation uses **Codex only** (gpt-image-2 via the Codex CLI). Compositing needs
+`pillow` (`pip install pillow`). If Codex is unavailable, still produce drafts using the
+compositor's on-brand gradient and say so — there is no external-API path.

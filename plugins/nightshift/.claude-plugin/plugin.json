@@ -1,6 +1,6 @@
 {
   "name": "nightshift",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Autonomous build pipeline: interview -> SPEC -> PRD -> GitHub issues -> multi-day self-verifying build, plus daily issue triage that turns 'ai-ready' issues into reviewed PRs, and on-brand ad-creative generation (Google/LinkedIn/Meta) via Codex + gpt-image-2. Fable-5 orchestrator delegates coding to Cursor (composer) and Codex, seeks consensus when stuck, guards against loops and destructive operations.",
   "author": {
     "name": "Peter Steenbergen",
