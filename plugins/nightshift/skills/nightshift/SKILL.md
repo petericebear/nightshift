@@ -29,6 +29,13 @@ closes the issue. It only touches `ai-ready` issues and claims each by relabelli
 rebuilding the same work. Cap per run with `NIGHTSHIFT_TRIAGE_MAX` (default 3). See
 `SCHEDULING.md` to run it automatically each morning.
 
+## Ad creatives (`/nightshift-ads`)
+Turn a title + description (+ project context) into on-brand advertisement images sized
+exactly for Google Ads, LinkedIn (single + carousel), and Meta/Instagram. Codex/gpt-image-2
+generates the visual; a compositor overlays crisp logo + headline/subhead/CTA using
+`.context/brand-assets/DESIGN.md`. Output lands in `.context/ad-creatives/<slug>/` with a
+manifest. Add your logo and colors to `.context/brand-assets/` first for best results.
+
 ## How the orchestrator works
 - **Delegates coding**: Cursor/Composer (`scripts/cursor.sh`) for features/refactors,
   Codex (`scripts/codex.sh`) for debugging, review, and computer-use.

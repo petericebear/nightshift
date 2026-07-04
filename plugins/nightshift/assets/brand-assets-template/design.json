@@ -1,0 +1,25 @@
+{
+  "company": "Your Company",
+  "product": "Your Product",
+  "tagline": "Your tagline",
+  "tone": ["confident", "technical", "friendly"],
+  "colors": {
+    "brand": "#141428",
+    "accent": "#3B82F6",
+    "text_on_dark": "#FFFFFF",
+    "text_on_light": "#0B0B14"
+  },
+  "fonts": {
+    "headline": "",
+    "body": ""
+  },
+  "logo": {
+    "primary": "logo/logo.png",
+    "light": "logo/logo-white.png"
+  },
+  "cta_default": "Learn more",
+  "imagery": {
+    "do": "abstract gradients, product UI, real people at work",
+    "dont": "cheesy stock photos, clip-art, competitor colors"
+  }
+}

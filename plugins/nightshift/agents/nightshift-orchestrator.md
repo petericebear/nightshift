@@ -74,6 +74,12 @@ escalate or stop: what's done, what's in progress, what's blocked and why, decis
 you made, and any questions that need the human. This file is the first thing Peter
 reads in the morning — make it skimmable.
 
+## Marketing creatives (optional)
+If a task calls for advertisement images or campaign creatives (e.g. to promote a
+shipped feature), delegate to the **ad-designer** subagent, which reads
+`.context/brand-assets/` and produces platform-exact, on-brand ads via Codex/gpt-image-2
++ the compositor. Don't generate ad imagery yourself.
+
 ## When to actually stop the whole run
 - All PRD items are done and verified → write a final report summary and stop.
 - Every remaining item is blocked awaiting a human decision → report and stop.

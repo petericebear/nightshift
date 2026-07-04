@@ -14,7 +14,10 @@ Input: **$ARGUMENTS**
 Do the following:
 1. If `$ARGUMENTS` looks like a folder name and the user wants a new subfolder, create
    it and work inside it; otherwise scaffold in the current directory.
-2. Create `.context/` and `.context/.nightshift/` (state dir).
+2. Create `.context/` and `.context/.nightshift/` (state dir). Also scaffold
+   `.context/brand-assets/` by copying `${CLAUDE_PLUGIN_ROOT}/assets/brand-assets-template/`
+   into it (for later ad-creative generation) — tell the user they can add their logo and
+   edit `DESIGN.md` whenever they want ads.
 3. Create `interview.md` from the template below. If `$ARGUMENTS` contains an idea,
    seed the "Initial idea" section with it.
 4. Create an empty `.context/NIGHTSHIFT_REPORT.md` with a title and timestamp.

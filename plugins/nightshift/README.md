@@ -21,6 +21,7 @@ idea → interview.md → SPEC.md → PRD.md → GitHub issues → autonomous bu
 | `/nightshift-build [item]` | Autonomous, self-verifying build (agent: `nightshift-orchestrator`) |
 | `/nightshift [idea\|build]` | Run the whole pipeline, resuming from current state |
 | `/nightshift-triage [issue#]` | Build open `ai-ready` GitHub issues on their own branch and open reviewed PRs |
+| `/nightshift-ads "<title>" "<desc>" [platforms]` | Generate on-brand ad creatives (Google/LinkedIn/Meta) |
 | `/nightshift-status` | Morning briefing: report + loop state + open issues |
 
 Saying **"nightshift"** in chat also triggers the skill.
@@ -52,6 +53,24 @@ PR** that closes the issue, and moves it to `ai-review`. It only ever processes
 `ai-ready` issues, so scheduled re-runs never rebuild the same work. Blocked issues get a
 comment explaining what's needed and are left in `ai-building` for a human. See
 [SCHEDULING.md](./SCHEDULING.md) for the ~6am daily setup.
+
+## Ad creatives
+
+`/nightshift-ads "<title>" "<description>" [google,linkedin,carousel,meta]` produces
+platform-exact, on-brand advertisement images. Codex/gpt-image-2 generates the visual
+(background only); a Pillow compositor (`scripts/compose.py`) overlays a crisp logo +
+headline + subhead + CTA at exact ad sizes, driven by `.context/brand-assets/DESIGN.md`
+(colors, fonts, logo, tone, guardrails). Sizes live in `assets/ad_specs.json`:
+
+- **Google Ads**: 1200×628, 1200×1200, 900×1200
+- **LinkedIn single**: 1200×628, 1200×1200
+- **LinkedIn carousel**: 1080×1080 × N cards
+- **Meta / Instagram**: 1080×1080, 1080×1920
+
+Set up `.context/brand-assets/` (scaffolded by `/nightshift-init`) with your logo and
+colors first. Needs `pillow` (`pip install pillow`); image generation defaults to Codex
+(`NIGHTSHIFT_IMAGE_BACKEND=api` + `OPENAI_API_KEY` for a direct-API fallback). Without an
+image backend it still renders usable drafts on a brand gradient.
 
 ## Autonomy posture
 

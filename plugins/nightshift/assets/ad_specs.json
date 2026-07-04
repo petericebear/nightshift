@@ -1,0 +1,42 @@
+{
+  "_comment": "Ad creative specs (2026). aspect maps to the base image the generator should produce; the compositor crops to exact w/h. Sources: Google Ads & LinkedIn & Meta help pages.",
+  "families": {
+    "google": {
+      "label": "Google Ads (responsive display)",
+      "formats": [
+        {"name": "google_landscape_1200x628", "w": 1200, "h": 628, "aspect": "landscape", "layout": "bottom"},
+        {"name": "google_square_1200x1200", "w": 1200, "h": 1200, "aspect": "square", "layout": "bottom"},
+        {"name": "google_portrait_900x1200", "w": 900, "h": 1200, "aspect": "portrait", "layout": "bottom"}
+      ]
+    },
+    "linkedin_single": {
+      "label": "LinkedIn single image (sponsored content)",
+      "formats": [
+        {"name": "linkedin_landscape_1200x628", "w": 1200, "h": 628, "aspect": "landscape", "layout": "bottom"},
+        {"name": "linkedin_square_1200x1200", "w": 1200, "h": 1200, "aspect": "square", "layout": "bottom"}
+      ]
+    },
+    "linkedin_carousel": {
+      "label": "LinkedIn carousel (2-10 square cards)",
+      "carousel": true,
+      "cards_min": 2,
+      "cards_max": 10,
+      "formats": [
+        {"name": "linkedin_carousel_1080x1080", "w": 1080, "h": 1080, "aspect": "square", "layout": "bottom"}
+      ]
+    },
+    "meta": {
+      "label": "Meta / Instagram",
+      "formats": [
+        {"name": "meta_feed_1080x1080", "w": 1080, "h": 1080, "aspect": "square", "layout": "bottom"},
+        {"name": "meta_story_1080x1920", "w": 1080, "h": 1920, "aspect": "story", "layout": "bottom"}
+      ]
+    }
+  },
+  "base_sizes": {
+    "square": "1024x1024",
+    "landscape": "1536x1024",
+    "portrait": "1024x1536",
+    "story": "1024x1536"
+  }
+}

@@ -34,6 +34,7 @@ Full setup (permissions posture, executor CLIs, unattended runs): see
 | `/nightshift-build [item]` | Autonomous, self-verifying build |
 | `/nightshift [idea\|build]` | Whole pipeline, resuming from current state |
 | `/nightshift-triage [issue#]` | Build open `ai-ready` GitHub issues on their own branch and open reviewed PRs |
+| `/nightshift-ads "<title>" "<desc>" [platforms]` | Generate on-brand ad creatives (Google/LinkedIn/Meta) |
 | `/nightshift-status` | Morning briefing: report + loop state + open issues |
 
 Saying **"nightshift"** in chat also triggers the skill.
@@ -45,6 +46,16 @@ Label a GitHub issue **`ai-ready`** and `/nightshift-triage` will build it on a
 that closes the issue — moving it `ai-ready` → `ai-building` → `ai-review`. It only
 processes `ai-ready` issues and claims each by relabelling, so it's safe to run every
 morning. See [plugins/nightshift/SCHEDULING.md](./plugins/nightshift/SCHEDULING.md).
+
+## Ad creatives
+
+`/nightshift-ads "<title>" "<description>"` turns an offer + project context into
+platform-exact, on-brand ad images. Codex/gpt-image-2 generates the visual; a Pillow
+compositor overlays crisp logo + headline + subhead + CTA using
+`.context/brand-assets/DESIGN.md`. Sizes (in `plugins/nightshift/assets/ad_specs.json`):
+Google Ads 1200×628 / 1200×1200 / 900×1200, LinkedIn single 1200×628 / 1200×1200,
+LinkedIn carousel 1080×1080 × N, Meta/IG 1080×1080 / 1080×1920. Output lands in
+`.context/ad-creatives/<slug>/` with a manifest.
 
 ## How it works
 
