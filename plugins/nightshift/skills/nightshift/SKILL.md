@@ -31,8 +31,9 @@ rebuilding the same work. Cap per run with `NIGHTSHIFT_TRIAGE_MAX` (default 3). 
 
 ## Ad creatives (`/nightshift-ads`)
 Turn a title + description (+ project context) into on-brand advertisement images sized
-exactly for Google Ads, LinkedIn (single + carousel), and Meta/Instagram. Codex/gpt-image-2
-generates the visual; a compositor overlays crisp logo + headline/subhead/CTA using
+exactly for Google Ads, LinkedIn (single + carousel), and Meta/Instagram. Gemini Nano
+Banana (or Codex/gpt-image-2 as fallback) generates the visual; a compositor overlays
+crisp logo + headline/subhead/CTA using
 `.context/brand-assets/DESIGN.md`. Output lands in `.context/ad-creatives/<slug>/` with a
 manifest. Add your logo and colors to `.context/brand-assets/` first for best results.
 
@@ -60,3 +61,8 @@ a long unattended coding run, or resume one. If the project lacks `interview.md`
 - `NIGHTSHIFT_MAX_ITERS` (default 25), `NIGHTSHIFT_MAX_MINUTES` (180),
   `NIGHTSHIFT_MAX_NOPROGRESS` (5) — loop-guard budgets.
 - `NIGHTSHIFT_CURSOR_MODEL` (default `composer`), `NIGHTSHIFT_CODEX_MODEL` — executor models.
+- `NIGHTSHIFT_CODER` (`auto`|`cursor`|`codex`) — coder preference; `auto` prefers Cursor
+  and falls back to Codex when `cursor-agent` is absent.
+- `NIGHTSHIFT_IMAGE_BACKEND` (`auto`|`gemini`|`codex`) and `NIGHTSHIFT_GEMINI_MODEL`
+  (default `gemini-3-pro-image` = Nano Banana Pro; `gemini-3.1-flash-image` = Nano Banana 2)
+  — ad image generation.

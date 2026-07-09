@@ -55,8 +55,9 @@ compositor overlays crisp logo + headline + subhead + CTA using
 `.context/brand-assets/DESIGN.md`. Sizes (in `plugins/nightshift/assets/ad_specs.json`):
 Google Ads 1200×628 / 1200×1200 / 900×1200, LinkedIn single 1200×628 / 1200×1200,
 LinkedIn carousel 1080×1080 × N, Meta/IG 1080×1080 / 1080×1920. Output lands in
-`.context/ad-creatives/<slug>/` with a manifest. Image generation is **Codex-only**
-(gpt-image-2); no external-API path.
+`.context/ad-creatives/<slug>/` with a manifest. Image generation is CLI-driven and
+auto-selected: **Gemini Nano Banana** (`gemini-3-pro-image`) if the Gemini CLI +
+`nanobanana` extension is present, else **Codex/gpt-image-2**; no raw-API path.
 
 ## Everything lives in `.context/`
 
@@ -77,8 +78,9 @@ All Nightshift inputs, state, and outputs stay in one folder per project:
 
 - **Orchestrator** (`nightshift-orchestrator`, model **Fable 5**) plans, delegates,
   verifies, and decides — doing minimal coding itself.
-- **Executors**: Cursor/Composer (`scripts/cursor.sh`) as primary coder; Codex
-  (`scripts/codex.sh`) for debugging, review, and computer-use.
+- **Executors**: a dispatcher (`scripts/code.sh`) prefers Cursor/Composer and
+  auto-falls back to Codex if `cursor-agent` isn't installed; reviews prefer Codex.
+  (`NIGHTSHIFT_CODER=cursor|codex` to force one.)
 - **Quality gate**: `verifier` runs tests, `reviewer` checks correctness/security/PRD
   (with a Codex second pass). Done = tests pass **and** review clean.
 - **Consensus when stuck**: `scripts/consensus.sh` asks both executors for an approach;
@@ -103,8 +105,10 @@ INSTALL.md
 
 ## Requirements
 
-Claude Code (Fable 5 available), `cursor-agent`, `codex`, optionally `gh`
-(authenticated), and `python3`. Missing executor CLIs degrade gracefully.
+Claude Code (Fable 5 available); `cursor-agent` and/or `codex` (either works — Cursor
+preferred, Codex fallback); `gemini` CLI + `nanobanana` extension for ad images (Codex
+is the image fallback); optionally `gh` (authenticated); `python3` (+ `pillow` for ads).
+Missing CLIs degrade gracefully.
 
 ## License
 

@@ -33,6 +33,8 @@ Formats & sizes come from `${CLAUDE_PLUGIN_ROOT}/assets/ad_specs.json`
 (Google 1200×628 / 1200×1200 / 900×1200; LinkedIn 1200×628 / 1200×1200; LinkedIn
 carousel 1080×1080 ×N; Meta 1080×1080 / 1080×1920).
 
-Image generation uses **Codex only** (gpt-image-2 via the Codex CLI). Compositing needs
-`pillow` (`pip install pillow`). If Codex is unavailable, still produce drafts using the
-compositor's on-brand gradient and say so — there is no external-API path.
+Image generation is CLI-driven and auto-selected: **Gemini Nano Banana**
+(`gemini-3-pro-image`, via the Gemini CLI + `nanobanana` extension) if available, else
+**Codex/gpt-image-2**. Override with `NIGHTSHIFT_IMAGE_BACKEND=gemini|codex|auto`.
+Compositing needs `pillow` (`pip install pillow`). If no image CLI is available, still
+produce drafts using the compositor's on-brand gradient and say so — no external-API path.

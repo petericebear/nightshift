@@ -30,8 +30,10 @@ Keep claims within the "Always/Never" rules in DESIGN.md.
 
 ## 3. Generate base visuals (one per aspect, reused across sizes to save cost)
 For each aspect you need (`square`, `landscape`, `portrait`, `story`), write ONE
-gpt-image-2 background prompt in the brand's imagery style — **background only, no text
-or logos**, with clean negative space for copy. Generate it:
+background-image prompt in the brand's imagery style — **background only, no text
+or logos**, with clean negative space for copy. `adgen.sh` picks the image engine
+automatically: Gemini Nano Banana (default `gemini-3-pro-image` via the Gemini CLI) if
+available, otherwise Codex/gpt-image-2. Generate it:
 `${CLAUDE_PLUGIN_ROOT}/scripts/adgen.sh <aspect> "<prompt>" .context/ad-creatives/<slug>/base/<aspect>.png`
 If `adgen.sh` reports Codex/image backend unavailable, continue with the compositor's
 brand-gradient fallback (no `--base`) so the user still gets usable drafts, and note it.

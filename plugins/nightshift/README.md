@@ -30,8 +30,10 @@ Saying **"nightshift"** in chat also triggers the skill.
 
 - **Orchestrator** (`nightshift-orchestrator`, model **Fable 5**) — plans, delegates,
   verifies, decides. Does minimal coding itself.
-- **Executors** — Cursor/Composer (`scripts/cursor.sh`) as primary coder; Codex
-  (`scripts/codex.sh`) for debugging, review, and computer-use.
+- **Executors** — a dispatcher (`scripts/code.sh`) prefers Cursor/Composer and
+  **auto-falls back to Codex** if `cursor-agent` isn't installed; reviews prefer Codex.
+  Force one with `NIGHTSHIFT_CODER=cursor|codex`; `cursor.sh`/`codex.sh` remain for
+  explicit engine choice.
 - **Quality gate** — `verifier` (runs tests) + `reviewer` (correctness/security/PRD,
   with a Codex second pass). An item is *done* only when tests pass **and** review is clean.
 - **Consensus when stuck** — `scripts/consensus.sh` asks *both* executors for a fix
@@ -68,9 +70,12 @@ headline + subhead + CTA at exact ad sizes, driven by `.context/brand-assets/DES
 - **Meta / Instagram**: 1080×1080, 1080×1920
 
 Set up `.context/brand-assets/` (scaffolded by `/nightshift-init`) with your logo and
-colors first. Needs `pillow` (`pip install pillow`). Image generation uses **Codex only**
-(gpt-image-2) — no external-API path. Without Codex it still renders usable drafts on a
-brand gradient.
+colors first. Needs `pillow` (`pip install pillow`). Image generation is CLI-driven and
+auto-selected: **Gemini Nano Banana** (default `gemini-3-pro-image`, via the Gemini CLI +
+`nanobanana` extension) when available, otherwise **Codex/gpt-image-2** — no raw-API path.
+Override with `NIGHTSHIFT_IMAGE_BACKEND=gemini|codex|auto` and `NIGHTSHIFT_GEMINI_MODEL`
+(e.g. `gemini-3.1-flash-image` for the faster Nano Banana 2). Without any image CLI it
+still renders usable drafts on a brand gradient.
 
 ## Everything lives in `.context/`
 
@@ -107,8 +112,10 @@ settings, and `INSTALL.md` for setup.
 ## Requirements
 
 - Claude Code (with Fable 5 available for the orchestrator).
-- `cursor-agent` (Cursor CLI) and `codex` (Codex CLI) on PATH for the executors.
-  Missing CLIs degrade gracefully — the orchestrator falls back or notes it in the report.
+- `cursor-agent` (Cursor CLI) and/or `codex` (Codex CLI) on PATH for the executors —
+  either alone works; the dispatcher prefers Cursor and falls back to Codex.
+- `gemini` (Gemini CLI) + the `nanobanana` extension for ad image generation
+  (`gemini extensions install nanobanana`); Codex/gpt-image-2 is the fallback.
 - `gh` (GitHub CLI), authenticated, only if you want issue tracking.
 - `python3` for the guard/loop scripts.
 

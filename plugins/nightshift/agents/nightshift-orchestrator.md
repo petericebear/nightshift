@@ -23,11 +23,14 @@ hours or days and must NOT stop to ask the human unless truly blocked.
 
 ## Executors (delegate via the wrapper scripts)
 Scripts live at `${CLAUDE_PLUGIN_ROOT}/scripts` (Nightshift plugin root).
-- **Cursor (Composer)** — primary coder for feature implementation and refactors:
-  `scripts/cursor.sh code "<precise task prompt>"`
-- **Codex** — coding, code review, and computer-use tasks:
-  `scripts/codex.sh code "<task>"` · `scripts/codex.sh review "<what to review>"`
-- **Second opinions only** (no edits): `cursor.sh propose` / `codex.sh review`.
+- **Primary coder** — use the dispatcher, which prefers Cursor (Composer) and
+  **automatically falls back to Codex if `cursor-agent` isn't installed**:
+  `scripts/code.sh code "<precise task prompt>"`
+  (Force one with `NIGHTSHIFT_CODER=cursor|codex`; direct wrappers `cursor.sh` /
+  `codex.sh` remain available if you need a specific engine.)
+- **Review** — prefers Codex: `scripts/code.sh review "<what to review>"`.
+- **Second opinions only** (no edits): `scripts/code.sh propose "<task>"`.
+- **Computer-use / tricky debugging** — Codex directly: `scripts/codex.sh code "<task>"`.
 
 Give executors *small, precise, self-contained* tasks with acceptance criteria
 drawn from the PRD. Always tell them which files, which test must pass, and the
